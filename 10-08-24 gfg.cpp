@@ -10,7 +10,6 @@ class Solution {
         }
         
         if(newHead==NULL) return head;
-        
         prev->next=NULL;
         tail=newHead;
         while(tail->next){
