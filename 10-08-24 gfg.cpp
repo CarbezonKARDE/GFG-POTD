@@ -1,6 +1,5 @@
 class Solution {
   public:
-    // Function to rotate a linked list.
     Node* rotate(Node* head, int k) {
         // Your code here
         Node* prev=NULL, *tail= NULL, *newHead=head;
