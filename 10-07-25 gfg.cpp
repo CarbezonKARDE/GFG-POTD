@@ -1,23 +1,44 @@
+class TrieNode {
+public:
+    TrieNode* children[26];
+    bool isEnd;
+    string word;
+    TrieNode() {
+        isEnd = false;
+        word = "";
+        for (int i = 0; i < 26; i++) children[i] = nullptr;
+    }
+};
 class Solution {
-  public:
-    string longestString(vector<string> &arr) {
-        unordered_set<string> dict(arr.begin(), arr.end());
-        sort(arr.begin(), arr.end());
-        string result = "";
-        for (string word : arr) {
-            bool valid = true;
-            for (int i = 1; i < word.size(); ++i) {
-                if (dict.find(word.substr(0, i)) == dict.end()) {
-                    valid = false;
-                    break;
-                }
+public:
+    string longestString(vector<string>& words) {
+        TrieNode* root = new TrieNode();
+        for (string& word : words) {
+            TrieNode* node = root;
+            for (char ch : word) {
+                int idx = ch - 'a';
+                if (!node->children[idx])
+                    node->children[idx] = new TrieNode();
+                node = node->children[idx];
             }
-            if (valid) {
-                if (word.size() > result.size() || (word.size() == result.size() && word < result)) {
-                    result = word;
-                }
+            node->isEnd = true;
+            node->word = word;
+        }
+        string result = "";
+        dfs(root, result);
+        return result;
+    }
+    void dfs(TrieNode* node, string& result) {
+        if (!node->isEnd && node->word != "") return;
+
+        if (node->word.length() > result.length() || 
+            (node->word.length() == result.length() && node->word < result)) {
+            result = node->word;
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (node->children[i]) {
+                dfs(node->children[i], result);
             }
         }
-        return result;
     }
 };
