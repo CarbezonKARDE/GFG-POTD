@@ -1,0 +1,21 @@
+class Solution {
+    public int minSwaps(int[] arr) {
+        int n = arr.length;
+        int ones = 0;
+        for (int num : arr) {
+            if (num == 1) ones++;
+        }
+        if (ones == 0) return -1;
+        int currOnes = 0;
+        for (int i = 0; i < ones; i++) {
+            if (arr[i] == 1) currOnes++;
+        }
+        int maxOnes = currOnes;
+        for (int i = ones; i < n; i++) {
+            if (arr[i] == 1) currOnes++;
+            if (arr[i - ones] == 1) currOnes--;
+            maxOnes = Math.max(maxOnes, currOnes);
+        }
+        return ones - maxOnes;
+    }
+}
